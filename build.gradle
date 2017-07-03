@@ -1,6 +1,4 @@
-// These imports are needed further down
-// -------------------------------------
-buildscript {
+wbuildscript {
 	ext {
 		springBootVersion = '1.5.4.RELEASE'
 	}
@@ -12,12 +10,8 @@ buildscript {
         jcenter()
 	}
 	dependencies {
-//		classpath("com.h2database:h2:1.4.193")
-//        classpath("org.flywaydb:flyway-core")
-
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 		classpath("org.postgresql:postgresql:9.4.1208")
-//		classpath("org.jooq:jooq-codegen:3.9.3")
 	}
 }
 
@@ -29,7 +23,6 @@ plugins {
 
 apply plugin: 'java'
 apply plugin: 'maven'
-//apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 
 sourceCompatibility = 1.8
@@ -44,8 +37,6 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
 dependencies {
-//    compile 'org.jooq:jooq:3.9.3'
-//    compile group: 'org.jooq', name: 'jooq-meta', version: '3.9.3'
 	compile (group: 'org.postgresql', name: 'postgresql', version: '9.4.1208') {
 		exclude(group: 'org.slf4j')
 	}
@@ -55,20 +46,13 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-security')
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 	compile('org.springframework.boot:spring-boot-starter-web')
-//	compile('com.h2database:h2:1.4.193')
-//    compile('org.codehaus.mojo:properties-maven-plugin:1.0.0')
-//    compile group: 'org.codehaus.mojo', name: 'sql-maven-plugin', version: '1.5'
 
-
-//    jooqRuntime 'com.h2database:h2:1.4.193'
     jooqRuntime 'postgresql:postgresql:9.4.1208-jdbc42-atlassian-hosted'
 
 	runtime('org.springframework.boot:spring-boot-devtools')
-//	runtime('com.h2database:h2:1.4.193')
+
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
-//URLClassLoader loader = GroovyObject.class.classLoader
-//DriverManager.registerDriver(loader.loadClass("org.postgresql.Driver").newInstance())
 
 jooq {
 	mgz(sourceSets.main) {
@@ -87,19 +71,6 @@ jooq {
 			database {
 				name = 'org.jooq.util.postgres.PostgresDatabase'
 				inputSchema = 'public'
-//				customTypes {
-//					customType {
-//						name = 'com.fasterxml.jackson.databind.JsonNode'
-//						converter = 'csmart.api.config.db.PostgresJSONJacksonJsonNodeBinding'
-//					}
-//				}
-//				forcedTypes {
-//					forcedType {
-//						name = 'com.fasterxml.jackson.databind.JsonNode'
-//						expression = 'public\\.users\\.address'
-//					}
-//				}
-			}
 			generate {
 				relations = true
 				deprecated = false
@@ -109,72 +80,8 @@ jooq {
 			}
 			target {
 				packageName = 'com.project.mgz.models.db'
-				directory = 'src/main/jooq'
+				directory = 'src/main/java'
 			}
 		}
 	}
 }
-
-
-//// Use your favourite XML builder to construct the code generation configuration file
-//// ----------------------------------------------------------------------------------
-//def writer = new StringWriter()
-//def xml = new groovy.xml.MarkupBuilder(writer)
-//        .configuration('xmlns': 'http://www.jooq.org/xsd/jooq-codegen-3.9.3.xsd') {
-//    jdbc() {
-//        driver('org.h2.Driver')
-//        url('jdbc:h2:~/mgz')
-//        user('sa')
-//        password('')
-//    }
-//    generator() {
-//        database() {
-//        }
-//        generate() {
-//        }
-//        target() {
-//            packageName('org.jooq.example.gradle.db')
-//            directory('src/main/java')
-//        }
-//    }
-//}
-//
-//// Run the code generator
-//// ----------------------
-//GenerationTool.main(
-//        JAXB.unmarshal(new StringReader(writer.toString()), org.jooq.util.jaxb.Configuration.class)
-//)
-
-
-//jooq {
-//    version = '3.9.2'
-//    edition = 'OSS'
-//    mgz(sourceSets.main) {
-////        java.sql.DriverManager.registerDriver(Thread.currentThread().getContextClassLoader().loadClass('org.h2.Driver').load())
-//
-//		jdbc {
-//			driver = 'org.h2.Driver'
-//			url = 'jdbc:h2:mem:mgz'
-//			user = 'sa'
-//			password = ''
-//		}
-//		generator {
-//			name = 'org.jooq.util.JavaGenerator'
-//			strategy {
-//				name = 'org.jooq.util.DefaultGeneratorStrategy'
-//			}
-//			database {
-//				name = 'org.jooq.util.h2.H2Database'
-//                inputSchema = 'ELO'
-//			}
-//			target {
-//				packageName = 'com.project.mgz.jooq'
-//				directory = 'src/main/java'
-//			}
-//		}
-//
-//	}
-//}
-
-//generateMgzJooqSchemaSource.dependsOn flywayMigrate
-
